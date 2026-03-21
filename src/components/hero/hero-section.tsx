@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { useEffect, useState } from "react"
 
 import { Flame, PhoneCall, ShieldCheck, Truck, Zap } from "lucide-react"
 
@@ -191,13 +192,41 @@ export function HeroSection() {
   const whatsappMessage = encodeURIComponent(
     "Olá! Vim pelo site e preciso de gás."
   )
+  const topBannerMessages = ["Receba seu gás em 20 minutos", "Aceitamos Vale Gás"]
+  const [topBannerIndex, setTopBannerIndex] = useState(0)
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setTopBannerIndex((current) => (current + 1) % topBannerMessages.length)
+    }, 5000)
+
+    return () => {
+      window.clearInterval(intervalId)
+    }
+  }, [topBannerMessages.length])
 
   return (
     <>
       <div className="bg-[#fb8404] text-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-center gap-2 px-6 py-2 text-center text-sm font-semibold">
-          <Flame className="size-4" />
-          Peça seu gás agora e receba sem demora.
+        <div className="mx-auto max-w-6xl overflow-hidden">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{
+              width: `${topBannerMessages.length * 100}%`,
+              transform: `translateX(-${topBannerIndex * (100 / topBannerMessages.length)}%)`,
+            }}
+          >
+            {topBannerMessages.map((message) => (
+              <div
+                key={message}
+                className="flex flex-none items-center justify-center gap-2 px-6 py-2 text-center text-sm font-semibold"
+                style={{ width: `${100 / topBannerMessages.length}%` }}
+              >
+                <Flame className="size-4" />
+                {message}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <section id="inicio" className="bg-white">
@@ -291,7 +320,7 @@ export function HeroSection() {
               </BenefitsList>
             </div>
             <div className="flex items-center justify-center">
-              <div className="w-full max-w-sm">
+              <div className="flex w-full max-w-sm flex-col gap-3">
                 <Image
                   src="/images/entrega-gas.png"
                   alt="Entrega de gás"
@@ -300,6 +329,20 @@ export function HeroSection() {
                   className="h-auto w-full rounded-3xl"
                   priority
                 />
+                <div className="rounded-2xl border border-[#fb8404]/20 bg-[#fb8404]/10 p-4 text-center">
+                  <p className="text-sm font-semibold text-[#1d1d1d] font-body">
+                    Aceitamos{" "}
+                    <span className="font-bold text-[#fb8404]">Vale Gás</span>{" "}
+                    pois somos conveniados com o programa do governo,{" "}
+                    <span className="font-bold text-[#fb8404]">
+                      Gás do Povo
+                    </span>
+                    .
+                  </p>
+                  <p className="mt-2 text-xs text-[#5a5a5a] font-body">
+                    Vale Gás | Auxílio Gás | Gás do Povo
+                  </p>
+                </div>
               </div>
             </div>
           </div>

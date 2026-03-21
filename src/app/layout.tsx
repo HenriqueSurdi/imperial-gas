@@ -36,7 +36,17 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'AW-17876528745');
+              gtag('consent', 'default', {
+                ad_storage: 'granted',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                analytics_storage: 'granted'
+              });
+              gtag('set', 'ads_data_redaction', true);
+              gtag('set', 'allow_enhanced_conversions', false);
+              gtag('config', 'AW-17876528745', {
+                allow_enhanced_conversions: false
+              });
             `,
           }}
         />
