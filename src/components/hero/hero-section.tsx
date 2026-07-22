@@ -21,7 +21,16 @@ type GtagWindow = typeof window & {
   dataLayer?: unknown[]
 }
 
-const reportConversion = (url: string | undefined, openInNewTab: boolean) => {
+const CONVERSION_LABELS = {
+  whatsapp: "AW-17876528745/CxYpCOz649QcEOncmMxC",
+  call: "AW-17876528745/y_IxCOKL-tQcEOncmMxC",
+} as const
+
+const reportConversion = (
+  url: string | undefined,
+  openInNewTab: boolean,
+  sendTo: string
+) => {
   if (typeof window === "undefined") {
     return
   }
@@ -56,7 +65,7 @@ const reportConversion = (url: string | undefined, openInNewTab: boolean) => {
   }
 
   typedWindow.gtag("event", "conversion", {
-    send_to: "AW-17876528745/_J8kCKGH64McEOncmMxC",
+    send_to: sendTo,
     value: 1.0,
     currency: "BRL",
     event_callback: callback,
@@ -136,7 +145,13 @@ function CTAButton({ variant, icon, text, link, trackingLabel }: CTAButtonProps)
           }
           event.preventDefault()
           trackContactEvent(action, trackingLabel)
-          reportConversion(link, isExternal)
+          reportConversion(
+            link,
+            isExternal,
+            isPhoneLink
+              ? CONVERSION_LABELS.call
+              : CONVERSION_LABELS.whatsapp
+          )
         }}
       >
         <span className="inline-flex items-center gap-2">

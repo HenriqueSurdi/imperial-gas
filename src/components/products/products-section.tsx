@@ -52,7 +52,7 @@ const reportConversion = (url: string | undefined, openInNewTab: boolean) => {
   }
 
   typedWindow.gtag("event", "conversion", {
-    send_to: "AW-17876528745/_J8kCKGH64McEOncmMxC",
+    send_to: "AW-17876528745/CxYpCOz649QcEOncmMxC",
     value: 1.0,
     currency: "BRL",
     event_callback: callback,
